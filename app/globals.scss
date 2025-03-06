@@ -30,6 +30,19 @@ body {
   margin: 0;
 }
 
+
+.AppWrapper {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.MainContent {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
 a {
   color: inherit;
   text-decoration: none;
