@@ -1,30 +1,34 @@
 "use client"
-import { JSX } from "@emotion/react/jsx-runtime";
-import { createContext, useContext, useState } from "react";
-import StartMessageDialog from "./StartMessageDialog";
+import { getKeyPair, KeyPairProps } from '@/app/encryption';
+import { UserProps } from '@internal/types';
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface AppContextProps {
-  startNewMessage: () => void;
-};
+    keyPair?: KeyPairProps,
+    session: UserProps | null;
+}
 
 const AppContext = createContext<AppContextProps>({
-  startNewMessage: () => { }
+    session: null
 });
 export const useApp = () => useContext(AppContext);
+type Props = {
+    children: React.ReactNode;
+    session: UserProps | null;
+}
 
-const AppProvider = ({ children }: { children: JSX.Element }) => {
-  const [openStartMessage, setOpenStartMessage] = useState(false);
-  const handleCloseStartMessage = () => {
-    setOpenStartMessage(false);
-  }
-  return (
-    <AppContext.Provider value={{
-      startNewMessage: () => setOpenStartMessage(true)
-    }}>
-      {children}
-      <StartMessageDialog open={openStartMessage} onClose={handleCloseStartMessage} />
-    </AppContext.Provider>
-  );
-};
-
-export default AppProvider;
+export default function AppProvider({ children, session }: Props) {
+    const [keyPair, setKeyPair] = useState<KeyPairProps | undefined>();
+    useEffect(() => {
+        getKeyPair()
+            .then(k => setKeyPair(k))
+            .catch(err => {
+                console.log(err)
+            })
+    }, []);
+    return (
+        <AppContext.Provider value={{ keyPair, session }}>
+            {children}
+        </AppContext.Provider>
+    )
+}

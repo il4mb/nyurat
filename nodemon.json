@@ -1,5 +1,5 @@
 {
   "watch": ["server/serve.ts"],
   "ext": "ts js",
-  "exec": "ts-node --transpile-only --project tsconfig.server.json server/serve.ts"
+  "exec": "NODE_OPTIONS=\"--max-old-space-size=4096\" ts-node --transpile-only --project tsconfig.server.json server/serve.ts"
 }

@@ -1,23 +1,23 @@
 import { getUser } from "@/internal/lib/dal";
-import Header from "./ui/Header";
+import Sidebar from "./ui/Sidebar";
+import AppProvider from "./ui/AppProvider";
 
 interface layoutProps {
     children: React.ReactNode
 };
 
-const layout = async ({ children }: layoutProps) => {
+export default async function Layout({ children }: layoutProps) {
     const session = await getUser();
 
     return (
-        <>
+        <AppProvider session={session}>
             <div className="AppWrapper">
-                <Header session={session} />
+                <Sidebar session={session} />
                 <main className="MainContent">
                     {children}
                 </main>
             </div>
-        </>
+        </AppProvider>
     );
 };
 
-export default layout

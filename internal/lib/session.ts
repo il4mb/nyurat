@@ -25,10 +25,3 @@ export async function decrypt<T extends JWTPayload>(session: string | undefined 
         return null
     }
 }
-
-
-
-export async function createSession(id: number) {
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
-}
